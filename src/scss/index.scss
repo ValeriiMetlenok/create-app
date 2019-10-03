@@ -1,0 +1,9 @@
+h1{
+    display: flex;
+    color:red
+}
+@media (max-width:768px){
+    h1{
+        color:#000
+    }
+}
