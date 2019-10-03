@@ -94,11 +94,11 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpe?g|gif|svg)$/i,
                 loader: 'file-loader',
                 options: {
-                    name: '[name].[ext]',
-                }
+                  name: '[path][name].[ext]',
+                },
             }
         ]
     },
