@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -8,7 +9,16 @@ const PATH = {
     dist: path.join( __dirname, '../../public/'),
     postcssConfig: path.join(__dirname, '../postcss.config.js'),
     src: path.join(__dirname, '../../src'),
+    PAGES_DIR: path.join(__dirname, '../../src/pages')
 }
+
+const PAGES = fs.readdirSync(PATH.PAGES_DIR).filter(fileName => { 
+
+    if(fileName.endsWith('.pug') && !fileName.startsWith('_')){
+        return fileName
+    }
+
+})
 
 module.exports = {
 
@@ -56,7 +66,8 @@ module.exports = {
                         options: { 
                             sourceMap: true
                         }
-                    }, {
+                    },
+                    {
                         loader: 'postcss-loader',
                         options: { 
                             sourceMap: true, 
@@ -77,7 +88,8 @@ module.exports = {
                         options: { 
                             sourceMap: true
                         }
-                    }, {
+                    }, 
+                    {
                         loader: 'postcss-loader',
                         options: { 
                             sourceMap: true, 
@@ -85,13 +97,18 @@ module.exports = {
                                 path: PATH.postcssConfig
                             }
                         }
-                    }, {
+                    }, 
+                    {
                         loader: 'sass-loader',
                         options: { 
                             sourceMap: true 
                         }
                     }
                 ]
+            },
+            {
+                test: /\.pug$/,
+                loader: 'pug-loader'
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/i,
@@ -123,7 +140,12 @@ module.exports = {
                 from: `${PATH.src}/fonts`, 
                 to: `css/fonts`
             },
-        ])
+        ]),
+
+        ...PAGES.map(page => new HtmlWebpackPlugin({
+            template: `${PATH.PAGES_DIR}/${page}`,
+            filename: `./${page.replace(/\.pug/,'.html')}`
+        }))
 
     ]
 }

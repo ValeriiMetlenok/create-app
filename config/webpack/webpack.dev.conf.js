@@ -15,6 +15,7 @@ const devWebpackConfig  = merge(baseWebpackConfig, {
         },
         port: 3000,
     },
+    watch: true,
     
     devtool: 'cheap-module-eval-source-map',
     plugins: [
