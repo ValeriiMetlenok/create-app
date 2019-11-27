@@ -3,6 +3,12 @@ const fs = require('fs')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ImageminPlugin = require('imagemin-webpack-plugin').default
+const imageminJpegRecompress = require('imagemin-jpeg-recompress');
+/* const del = require('del');
+
+del(['public'])  */
+
 
 const PATH = {
     entry: path.join( __dirname, '../config.js'),
@@ -141,6 +147,26 @@ module.exports = {
                 to: `css/fonts`
             },
         ]),
+
+        new ImageminPlugin({ 
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            jpegtran: { progressive: true },
+            optipng:{
+                optimizationLevel: 3
+            },
+            plugins:[
+                imageminJpegRecompress({
+                    loops  : 6,
+                    min    : 60,
+                    max    : 69,
+                    quality: 'medium'
+                })
+            ],
+            pngquant:{ 
+                quality: '65-70', 
+                speed: 5
+            }
+        }),
 
         ...PAGES.map(page => new HtmlWebpackPlugin({
             template: `${PATH.PAGES_DIR}/${page}`,

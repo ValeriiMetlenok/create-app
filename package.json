@@ -35,6 +35,11 @@
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "imagemin-jpeg-recompress": "^6.0.0",
+    "imagemin-webpack-plugin": "^2.4.2"
+  },
+  "dependencies": {
+    "del": "^5.1.0"
   }
 }
